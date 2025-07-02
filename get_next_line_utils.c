@@ -76,3 +76,40 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	w[a + b] = '\0';
 	return (w);
 }
+
+
+int	ft_index(const char *s, int c)
+{
+	int	count;
+
+	if (!s)
+		return (-1);
+	count = 0;
+	while (s[count])
+	{
+		if (s[count] == (char)c)
+			return (count);
+		count++;
+	}
+	if ((char)c == '\0')
+		return (count);
+	return (-1);
+}
+char	*ft_strdup(char *src)
+{
+	int		i;
+	char	*c;
+
+	i = ft_strlen(src) + 1;
+	c = (char *) malloc (i * sizeof(char));
+	if (!c)
+		return (NULL);
+	i = 0;
+	while (src[i] != '\0')
+	{
+		c[i] = src[i];
+		i++;
+	}
+	c[i] = src[i];
+	return (c);
+}
