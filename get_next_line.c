@@ -16,73 +16,84 @@ void	ft_read(int fd, char **line)
 {
 	ssize_t	size;
 	int		index;
-	char	*readline;
+	char	*line_to_read;
 	char	*linetmp;
 	
 	index = ft_index(*line, '\n');
 	size = 1;
-	readline = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (readline == NULL)
+	line_to_read = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (line_to_read == NULL)
+	{
+		free(*line);
+		*line = NULL;
+		free(line_to_read);
 		return ;
+	}
 	while (index == -1 && size > 0)
 	{
-		size = read(fd, readline, BUFFER_SIZE);
+		size = read(fd, line_to_read, BUFFER_SIZE);
 		if (size < 1)
 			break;
-		readline[size] = '\0';
-		index = ft_index(readline, '\n');
+		line_to_read[size] = '\0';
+		index = ft_index(line_to_read, '\n');
 		if (*line != NULL )
 		{
-			linetmp = ft_strjoin(*line, readline);
+			linetmp = ft_strjoin(*line, line_to_read);
 			free(*line);
 			*line = linetmp;
 		}
 		else
 		{
-			*line = ft_strdup(readline);
+			*line = ft_strdup(line_to_read);
 		}
 	}
-	free(readline);
+	
+	free(line_to_read);
 	return ;
 }
 
 char	*ft_extract_line(char **line)
 {
-	int		index;
-	char	*extracted_line;
-	char	*linetmp;
-
-	if (*line == NULL)
-		return (NULL);
-	index = ft_index(*line, '\n');
-	if (index < 0)
-	{
-		if (**line == '\0')
-		{
-			free(*line);
-			*line = NULL;
-			return (NULL);
-		}
-		extracted_line = ft_strdup(*line);
-		free(*line);
-		*line = NULL;
-		return (extracted_line);
-	}
-	extracted_line = ft_substr(*line, 0, index + 1);
-	linetmp = ft_substr(*line, index + 1, ft_strlen(*line) - index - 1);
-	free(*line);
-	*line = linetmp;
-	return (extracted_line);
+    int     index;
+    char    *extracted_line;
+    char    *linetmp;
+    
+    if (*line == NULL || **line == '\0')
+        return (NULL);
+    index = ft_index(*line, '\n');
+    if (index >= 0)
+    {
+        extracted_line = ft_substr(*line, 0, index + 1);
+        linetmp = ft_substr(*line, index + 1, ft_strlen(*line) - index - 1);
+        free(*line);
+        *line = linetmp;
+        return (extracted_line);
+    }
+    extracted_line = ft_strdup(*line);
+    free(*line);
+    *line = NULL;
+    return (extracted_line);
 }
+
 
 char	*get_next_line(int fd)
 {
-	static char	*readline;
-	char		*line;
-
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);
+	static char *readline;
+	char        *line;
+	
 	ft_read(fd, &readline);
+	if (readline == NULL)
+		return (NULL);
 	line = ft_extract_line(&readline);
+	if (!line || !*line)
+	{
+		free(line);
+		free(readline);
+		readline = NULL;
+		line = NULL;
+		return (NULL);
+	}
+	
 	return (line);
 }
+
