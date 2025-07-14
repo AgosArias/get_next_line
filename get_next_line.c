@@ -12,30 +12,31 @@
 
 #include "get_next_line.h"
 
-char	ft_read(int fd)
+char	*ft_read(int fd, char *buffer)
 {
 	char	*read_buffer;
 	size_t bytes_read;
 
 	bytes_read = 1;
 	read_buffer = (char *)malloc(BUFFER_SIZE + 1);
-	while (1)
+	if (!read_buffer)
+		return (NULL);
+	while (!ft_strchr(buffer, '\n') && bytes_read > 0)
 	{
 		bytes_read = read(fd, read_buffer, BUFFER_SIZE);
 		if (bytes_read < 0)
 		{
 			ft_free(read_buffer);
-			return;
+			return (NULL);
 		}
 		read_buffer[bytes_read] = '\0';
-		if (!ft_strchr(read_buffer, '\n'))
-		{
-			
-		}
-		
-		
+		if (!buffer)
+			buffer = ft_strdup(read_buffer);
+		else
+			buffer = ft_strjoin(buffer, read_buffer);
 	}
-	
+	ft_free(read_buffer);
+	return (buffer);
 }
 
 char	ft_extract_line()
@@ -48,7 +49,7 @@ char *get_next_line(int fd)
 	static char *buffer;
 	char *line;
 
-	line = ft_read(fd);
+	buffer = ft_read(fd, buffer);
 	if (line == NULL)
 		return (NULL);
 	line = ft_extract_line();
