@@ -12,7 +12,7 @@
 
 #include "get_next_line.h"
 
-void    ft_free(char* pointer)
+void    ft_free(char *pointer)
 {
 	if (pointer != NULL)
 		free(pointer);

@@ -44,10 +44,42 @@ char	*ft_read(int fd, char *buffer)
 	return (buffer);
 }
 
-char	ft_extract_line()
+char	*ft_extract_line(char *buffer)
 {
+	char	*line;
 
+	if (!buffer)
+		return (NULL);
+	if (!ft_strchr(buffer, '\n'))
+	{
+		line = ft_strdup(buffer);
+		ft_free(buffer);
+	}
+	else
+	{
+		line = 
+		buffer = ft_strchr(buffer, '\n');
+	}
+	return (line);
 }
+
+
+char	*ft_(char *buffer, int c)
+{
+	int		count;
+	char	*d;
+
+	while (d[count])
+	{
+		if (d[count] == (char)c)
+			return (&d[count]);
+		count++;
+	}
+	if ((char)c == '\0')
+		return (&d[count]);
+	return (NULL);
+}
+
 
 char *get_next_line(int fd)
 {
@@ -55,7 +87,20 @@ char *get_next_line(int fd)
 	char *line;
 
 	buffer = ft_read(fd, buffer);
-	if (line == NULL)
+	if (buffer == NULL)
 		return (NULL);
-	line = ft_extract_line();
-}
+	line = ft_extract_line(buffer);
+	if (!line)
+		ft_free(buffer);
+
+} 
+
+/*
+
+        extracted_line = ft_substr(*line, 0, index + 1);
+        linetmp = ft_substr(*line, index + 1, ft_strlen(*line) - index - 1);
+        free(*line);
+        *line = linetmp;
+        return (extracted_line);
+    }
+}*/
