@@ -16,6 +16,7 @@ char	*ft_read(int fd, char *buffer)
 {
 	char	*read_buffer;
 	size_t bytes_read;
+	char	*line_tmp;
 
 	bytes_read = 1;
 	read_buffer = (char *)malloc(BUFFER_SIZE + 1);
@@ -33,7 +34,11 @@ char	*ft_read(int fd, char *buffer)
 		if (!buffer)
 			buffer = ft_strdup(read_buffer);
 		else
-			buffer = ft_strjoin(buffer, read_buffer);
+		{
+			line_tmp = ft_strjoin(buffer, read_buffer);
+			ft_free(buffer);
+			buffer = line_tmp;
+		}
 	}
 	ft_free(read_buffer);
 	return (buffer);
