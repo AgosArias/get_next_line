@@ -14,18 +14,25 @@
 
 char	ft_read(int fd)
 {
-	char    read_buffer;
+	char	*read_buffer;
 	size_t bytes_read;
 
+	bytes_read = 1;
 	read_buffer = (char *)malloc(BUFFER_SIZE + 1);
 	while (1)
 	{
 		bytes_read = read(fd, read_buffer, BUFFER_SIZE);
-		if (bytes_read = -1)
+		if (bytes_read < 0)
 		{
 			ft_free(read_buffer);
 			return;
 		}
+		read_buffer[bytes_read] = '\0';
+		if (!ft_strchr(read_buffer, '\n'))
+		{
+			
+		}
+		
 		
 	}
 	
