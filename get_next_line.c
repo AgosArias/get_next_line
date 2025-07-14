@@ -17,7 +17,7 @@ char	*ft_read(int fd, char *buffer)
 	char	*read_buffer;
 	size_t bytes_read;
 	char	*line_tmp;
-
+	
 	bytes_read = 1;
 	read_buffer = (char *)malloc(BUFFER_SIZE + 1);
 	if (!read_buffer)
@@ -32,7 +32,7 @@ char	*ft_read(int fd, char *buffer)
 		}
 		read_buffer[bytes_read] = '\0';
 		if (!buffer)
-			buffer = ft_strdup(read_buffer);
+		buffer = ft_strdup(read_buffer);
 		else
 		{
 			line_tmp = ft_strjoin(buffer, read_buffer);
@@ -48,17 +48,17 @@ char	*ft_extract_line(char *buffer)
 {
 	char	*line;
 	int		i;
-
+	
 	if (!buffer)
-		return (NULL);
+	return (NULL);
 	i = 0;
 	while (buffer[i] != '\n' || buffer[i] != '\0')
 		i++;
-	if (buffer[i] == '\n')
+		if (buffer[i] == '\n')
 		i++;
-	line = (char *)malloc(sizeof(char) * i + 1);
+		line = (char *)malloc(sizeof(char) * i + 1);
 	if (!line)
-		return (NULL);
+	return (NULL);
 	line[i + 1]= '\0';
 	i = 0;
 	while (buffer[i] != '\n' || buffer[i] != '\0')
@@ -67,23 +67,41 @@ char	*ft_extract_line(char *buffer)
 		i++;
 	}
 	if (buffer[i] == '\n')
-		line[i] = '\n';
+	line[i] = '\n';
 	return (line);
 }
 char	*ft_update_buffer(char *buffer)
 {
-	return ();
+	int		j;
+	int		i;
+	char	*buffer_tmp;
+	
+	if(!ft_strchr(buffer, '\n'))
+		ft_free(buffer);
+		i = 0;
+		while (buffer[i] != '\n' )
+		i++;
+	buffer_tmp = (char *)malloc(sizeof(char)* (ft_strlen(buffer) - i) + 1);
+	j = 0;
+	while (buffer[i] != '\0')
+		buffer_tmp[j++] = buffer[i++];
+	buffer_tmp[j] = '\0';
+	ft_free(buffer);
+	buffer = buffer_tmp;
+	return (buffer);
 }
 char *get_next_line(int fd)
 {
 	static char *buffer;
 	char *line;
-
+	
 	buffer = ft_read(fd, buffer);
 	if (buffer == NULL)
 		return (NULL);
+	printf("linea: %s\n", buffer);
 	line = ft_extract_line(buffer);
 	if (!line)
 		ft_free(buffer);
-
+	buffer = ft_update_buffer(buffer);
+	return (line);
 } 

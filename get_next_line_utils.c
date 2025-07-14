@@ -23,6 +23,8 @@ char	*ft_strchr(char *s, int c)
 	int		count;
 	char	*d;
 
+	if (!s)
+		return (NULL);
 	d = (char *)s;
 	count = 0;
 	while (d[count])

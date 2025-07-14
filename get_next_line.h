@@ -19,7 +19,8 @@
 
 # include <stdio.h>
 # include <stddef.h>
-
+# include <stdlib.h>
+# include <unistd.h>
 
 char	*get_next_line(int fd);
 void    ft_free(char* pointer);
