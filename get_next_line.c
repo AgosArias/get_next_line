@@ -47,40 +47,33 @@ char	*ft_read(int fd, char *buffer)
 char	*ft_extract_line(char *buffer)
 {
 	char	*line;
+	int		i;
 
 	if (!buffer)
 		return (NULL);
-	if (!ft_strchr(buffer, '\n'))
+	i = 0;
+	while (buffer[i] != '\n' || buffer[i] != '\0')
+		i++;
+	if (buffer[i] == '\n')
+		i++;
+	line = (char *)malloc(sizeof(char) * i + 1);
+	if (!line)
+		return (NULL);
+	line[i + 1]= '\0';
+	i = 0;
+	while (buffer[i] != '\n' || buffer[i] != '\0')
 	{
-		line = ft_strdup(buffer);
-		ft_free(buffer);
+		line[i] = buffer[i];
+		i++;
 	}
-	else
-	{
-		line = 
-		buffer = ft_strchr(buffer, '\n');
-	}
+	if (buffer[i] == '\n')
+		line[i] = '\n';
 	return (line);
 }
-
-
-char	*ft_(char *buffer, int c)
+char	*ft_update_buffer(char *buffer)
 {
-	int		count;
-	char	*d;
-
-	while (d[count])
-	{
-		if (d[count] == (char)c)
-			return (&d[count]);
-		count++;
-	}
-	if ((char)c == '\0')
-		return (&d[count]);
-	return (NULL);
+	return ();
 }
-
-
 char *get_next_line(int fd)
 {
 	static char *buffer;
@@ -94,13 +87,3 @@ char *get_next_line(int fd)
 		ft_free(buffer);
 
 } 
-
-/*
-
-        extracted_line = ft_substr(*line, 0, index + 1);
-        linetmp = ft_substr(*line, index + 1, ft_strlen(*line) - index - 1);
-        free(*line);
-        *line = linetmp;
-        return (extracted_line);
-    }
-}*/
