@@ -57,7 +57,7 @@ char	*ft_strjoin(char *s1, char *s2)
 		return (NULL);
 	while (s1[a] != '\0')
 	{
-		w[a++] = s1[a];
+		w[a] = s1[a];
 		a++;
 	}
 	while (s2[b] != '\0')
