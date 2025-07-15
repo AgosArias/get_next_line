@@ -30,9 +30,9 @@ char	*ft_read(int fd, char *buffer)
 			ft_free(read_buffer);
 			return (NULL);
 		}
-		read_buffer[bytes_read] = '\0';
 		if (bytes_read == 0)
 			break;
+		read_buffer[bytes_read] = '\0';
 		if (!buffer)
 			buffer = ft_strdup(read_buffer);
 		else
@@ -52,13 +52,13 @@ char	*ft_extract_line(char *buffer)
 	int		i;
 	int j;
 	
-	if (!buffer)
+	if (!buffer || buffer[0] == '\0')
 		return (NULL);
 	i = 0;
 	while (buffer[i] != '\n' && buffer[i] != '\0')
-	i++;
+		i++;
 	if (buffer[i] == '\n')
-	i++;
+		i++;
 	line = (char *)malloc(sizeof(char) * i + 1);
 	if (!line)
 		return (NULL);
@@ -77,15 +77,16 @@ char	*ft_update_buffer(char *buffer)
 	int		i;
 	char	*buffer_tmp;
 	
-	if(!ft_strchr(buffer, '\n'))
+	if (!buffer || buffer[0] == '\0' ||!ft_strchr(buffer, '\n'))
 	{
 		ft_free(buffer);
 		return (NULL);
 	}
 	i = 0;
-	while (buffer[i] != '\n' )
-	i++;
-	i++;
+	while (buffer[i] != '\n' && buffer[i] != '\0' )
+		i++;
+	if (buffer[i] == '\n')
+		i++;
 	if(ft_strlen(buffer) == 0)
 	{
 		ft_free(buffer);
