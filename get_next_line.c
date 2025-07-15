@@ -28,18 +28,22 @@ char	*ft_read(int fd, char *buffer)
 		if (bytes_read < 0)
 		{
 			ft_free(read_buffer);
+			ft_free(buffer);
 			return (NULL);
 		}
 		if (bytes_read == 0)
-			break;
+		{
+			ft_free(read_buffer);
+			return (buffer);
+		}
 		read_buffer[bytes_read] = '\0';
 		if (!buffer)
 			buffer = ft_strdup(read_buffer);
 		else
 		{
-			buffer_tmp = ft_strjoin(buffer, read_buffer);
-			ft_free(buffer);
-			buffer = buffer_tmp;
+			buffer_tmp = buffer;
+			buffer = ft_strjoin(buffer, read_buffer);
+			ft_free(buffer_tmp);
 		}		
 	}
 	ft_free(read_buffer);
@@ -109,9 +113,7 @@ char *get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	buffer = ft_read(fd, buffer);
-	if (!buffer)
-		return (NULL);
-	if (buffer[0] == '\0')
+	if (!buffer || buffer[0] == '\0' ||  *buffer == '\0')
 	{
 		ft_free(buffer);
 		return (NULL);

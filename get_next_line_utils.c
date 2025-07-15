@@ -15,7 +15,10 @@
 void    ft_free(char *pointer)
 {
 	if (pointer != NULL)
+	{
 		free(pointer);
+		pointer = NULL;
+	}
 }
 
 char	*ft_strchr(char *s, int c)
