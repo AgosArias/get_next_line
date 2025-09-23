@@ -6,19 +6,16 @@
 /*   By: aarias-d <aarias-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 16:24:33 by aarias-d          #+#    #+#             */
-/*   Updated: 2025/06/24 18:57:33 by aarias-d         ###   ########.fr       */
+/*   Updated: 2025/07/15 17:56:54 by aarias-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void    ft_free(char *pointer)
+void	ft_free(char *pointer)
 {
-	if (pointer != NULL)
-	{
+	if (pointer)
 		free(pointer);
-		pointer = NULL;
-	}
 }
 
 char	*ft_strchr(char *s, int c)
@@ -47,14 +44,14 @@ char	*ft_strjoin(char *s1, char *s2)
 	int		a;
 	int		b;
 
-	b = 0;
+	b = -1;
 	a = 0;
 	if (!s1 && !s2)
 		return (NULL);
 	else if (!s1)
 		return (ft_strdup(s2));
-	else if(!s2)
-		return (ft_strdup(s1));	
+	else if (!s2)
+		return (ft_strdup(s1));
 	w = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (w == NULL)
 		return (NULL);
@@ -63,18 +60,15 @@ char	*ft_strjoin(char *s1, char *s2)
 		w[a] = s1[a];
 		a++;
 	}
-	while (s2[b] != '\0')
-	{
+	while (s2[++b] != '\0')
 		w[a + b] = s2[b];
-		b++;
-	}
 	w[a + b] = '\0';
 	return (w);
 }
 
-size_t	ft_strlen(char *str)
+int	ft_strlen(char *str)
 {
-	size_t	i;
+	int	i;
 
 	if (!str)
 		return (-1);
@@ -89,7 +83,7 @@ size_t	ft_strlen(char *str)
 	return (i);
 }
 
-	char	*ft_strdup(char *src)
+char	*ft_strdup(char *src)
 {
 	int		i;
 	char	*c;
