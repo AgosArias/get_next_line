@@ -107,6 +107,7 @@ char	*get_next_line(int fd)
 	if (!buffer || buffer[0] == '\0' || *buffer == '\0')
 	{
 		ft_free(buffer);
+		buffer = NULL;
 		return (NULL);
 	}
 	line = ft_extract_line(buffer);
@@ -114,6 +115,7 @@ char	*get_next_line(int fd)
 	if (!line)
 	{
 		ft_free(buffer);
+		buffer = NULL;
 		return (NULL);
 	}
 	return (line);
